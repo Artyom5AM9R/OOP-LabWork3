@@ -11,6 +11,51 @@ namespace MotionLibrary
     /// </summary>
     public abstract class Motion
     {
+        /// <summary>
+        /// Свойство для доступа к данным о координате нахождения объекта
+        /// </summary>
+        public float Coordinate { get; private set; }
 
+        /// <summary>
+        /// Свойство для доступа к данным о скорости движения объекта
+        /// </summary>
+        public float Speed
+        {
+            get
+            {
+                return Speed;
+            }
+            private set
+            {
+                if (value > 0 && value <= 299792458)
+                {
+                    Speed = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Свойство для доступа к данным о времени движения объекта
+        /// </summary>
+        public float Time
+        {
+            get
+            {
+                return Time;
+            }
+            private set
+            {
+                if (value > 0)
+                {
+                    Time = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Метод для определения координаты нахождения объекта
+        /// </summary>
+        /// <returns>Значение типа float</returns>
+        public abstract float CoordinateCalculation();
     }
 }
