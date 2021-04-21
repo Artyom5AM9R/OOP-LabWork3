@@ -11,24 +11,32 @@ namespace MotionLibrary
     /// </summary>
     public class OscillatoryMotion : Motion
     {
+        private double _amplitude;
+
+        private bool _startingPosition;
+
+        private double _cyclicFrequency;
+
+        private double _initialPhase;
+
         /// <summary>
         /// Амплитуда отклонения объекта от положения равновесия [метр]
         /// </summary>
-        public float Amplitude
+        public double Amplitude
         {
             get
             {
-                return Amplitude;
+                return _amplitude;
             }
             set
             {
                 if (value > 0)
                 {
-                    Amplitude = value;
+                    _amplitude = value;
                 }
                 else
                 {
-                    throw new Exception("\nВведено некорректное значение.\n");
+                    throw new Exception("Введено некорректное значение.");
                 }
             }
         }
@@ -37,24 +45,24 @@ namespace MotionLibrary
         /// Начальное положение объекта: 0 - положение равновесия, 1 - положение 
         /// максимального отклонения
         /// </summary>
-        public byte StartingPosition
+        public bool StartingPosition
         {
             get
             {
-                return StartingPosition;
+                return _startingPosition;
             }
             set
             {
-                switch (value)
+                switch (Convert.ToBoolean(value))
                 {
-                    case 0:
-                        StartingPosition = value;
+                    case false:
+                        _startingPosition = value;
                         break;
-                    case 1:
-                        StartingPosition = value;
+                    case true:
+                        _startingPosition = value;
                         break;
                     default:
-                        throw new Exception("\nВведено некорректное значение.\n");
+                        throw new Exception("Введено некорректное значение.");
                 }
             }
         }
@@ -62,35 +70,35 @@ namespace MotionLibrary
         /// <summary>
         /// Циклическая частота колебаний [рад/сек]
         /// </summary>
-        public float CyclicFrequency
+        public double CyclicFrequency
         {
             get
             {
-                return CyclicFrequency;
+                return _cyclicFrequency;
             }
             set
             {
                 if (value > 0)
                 {
-                    CyclicFrequency = value;
+                    _cyclicFrequency = value;
                 }
             }
         }
 
         /// <summary>
-        /// Начальная фаза колебаний [рад]
+        /// Начальная фаза колебаний [град]
         /// </summary>
-        public float InitialPhase
+        public double InitialPhase
         {
             get
             {
-                return InitialPhase;
+                return _initialPhase;
             }
             set
             {
-                if (Math.Abs(value) <= (360 / 2 * Math.PI))
+                if (Math.Abs(value) < 180)
                 {
-                    InitialPhase = value;
+                    _initialPhase = value / Math.PI;
                 }
                 else
                 {
@@ -102,10 +110,10 @@ namespace MotionLibrary
         /// <summary>
         /// Метод для перевода начальной фазы колебаний из градусов в радианы
         /// </summary>
-        /// <returns>Значение типа float</returns>
-        public float ConvertToRadian(float phaseInDegrees)
+        /// <returns>Значение типа double</returns>
+        public double ConvertToRadian(double phaseInDegrees)
         {
-            float phaseInRadian = (float)(phaseInDegrees / (2 * Math.PI));
+            double phaseInRadian = phaseInDegrees / (2 * Math.PI);
 
             return phaseInRadian;
         }
@@ -115,23 +123,34 @@ namespace MotionLibrary
         /// </summary>
         /// <param name="period">Период колебаний [c]</param>
         /// <returns></returns>
-        public float CalculateFrequency (float period)
+        public double CalculateFrequency (double period)
         {
-            float frequency = (float)(2 * Math.PI / period);
+            if (period > 0)
+            {
+                double frequency = (2 * Math.PI / period);
 
-            return frequency;
+                return frequency;
+            }
+            else
+            {
+                throw new Exception("\nВведено некорректное значение.\n");
+            }
+            
         }
 
         /// <summary>
         /// Метод для определения координаты нахождения объекта
         /// </summary>
         /// <returns>Значение типа float</returns>
-        public override float CalculateCoordinate()
+        public override double CalculateCoordinate()
         {
-            switch (StartingPosition)
+            switch (Convert.ToInt16(StartingPosition))
             {
                 case 0:
-                    Coordinate = Amplitude * (float)(Math.Sin(CyclicFrequency * Time + InitialPhase));
+                    Coordinate = Amplitude * Math.Sin(CyclicFrequency * Time + InitialPhase);
+                    break;
+                case 1:
+                    Coordinate = Amplitude * Math.Cos(CyclicFrequency * Time + InitialPhase);
                     break;
             }
 

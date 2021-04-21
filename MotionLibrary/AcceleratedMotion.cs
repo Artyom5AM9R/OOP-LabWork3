@@ -9,39 +9,51 @@ namespace MotionLibrary
     /// <summary>
     /// Класс для описания равноускоренного движения объектов
     /// </summary>
-    public class UniformlyAcceleratedMotion : Motion
+    public class AcceleratedMotion : Motion
     {
+        private double _startSpeed;
+
+        private double _acceleration;
+
         /// <summary>
         /// Свойство для доступа к данным о начальной координате нахождения объекта
         /// </summary>
-        public float StartCoordinate { get; set; }
+        public double StartCoordinate{ get; set; }
 
-        public float StartSpeed
+        public double StartSpeed
         {
             get
             {
-                return StartSpeed;
+                return _startSpeed;
             }
             set
             {
                 if (value > 0 && value <= 299792458)
                 {
-                    StartSpeed = value;
+                    _startSpeed = value;
+                }
+                else
+                {
+                    throw new Exception("Введено некорректное значение.");
                 }
             }
         }
 
-        public float Acceleration
+        public double Acceleration
         {
             get
             {
-                return Acceleration;
+                return _acceleration;
             }
             set
             {
                 if (value != 0 && value <= 299792458)
                 {
-                    Acceleration = value;
+                    _acceleration = value;
+                }
+                else
+                {
+                    throw new Exception("Введено некорректное значение.");
                 }
             }
         }
@@ -50,10 +62,9 @@ namespace MotionLibrary
         /// Метод для определения координаты нахождения объекта
         /// </summary>
         /// <returns>Значение типа float</returns>
-        public override float CalculateCoordinate()
+        public override double CalculateCoordinate()
         {
-            Coordinate = StartCoordinate + StartSpeed * Time +
-                + (Acceleration * Time * Time) / 2;
+            Coordinate = StartCoordinate + StartSpeed * Time + Acceleration * Time * Time / 2;
 
             return Coordinate;
         }
@@ -62,7 +73,7 @@ namespace MotionLibrary
         /// Метод для определения ускорения объекта
         /// </summary>
         /// <returns></returns>
-        public float CalculateAcceleration()
+        public double CalculateAcceleration()
         {
             Acceleration = (Speed - StartSpeed) / Time;
 

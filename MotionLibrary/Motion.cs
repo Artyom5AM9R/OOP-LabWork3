@@ -14,22 +14,29 @@ namespace MotionLibrary
         /// <summary>
         /// Свойство для доступа к данным о координате нахождения объекта
         /// </summary>
-        public float Coordinate { get; protected set; }
+        public double Coordinate { get; protected set; }
+
+        private double _speed;
+        private double _time;
 
         /// <summary>
         /// Свойство для доступа к данным о скорости движения объекта
         /// </summary>
-        public float Speed
+        public double Speed
         {
             get
             {
-                return Speed;
+                return _speed;
             }
-            protected set
+            set
             {
                 if (value > 0 && value <= 299792458)
                 {
-                    Speed = value;
+                    _speed = value;
+                }
+                else
+                {
+                    throw new Exception("Введено некорректное значение.");
                 }
             }
         }
@@ -37,17 +44,21 @@ namespace MotionLibrary
         /// <summary>
         /// Свойство для доступа к данным о времени движения объекта
         /// </summary>
-        public float Time
+        public double Time
         {
             get
             {
-                return Time;
+                return _time;
             }
-            protected set
+            set
             {
                 if (value > 0)
                 {
-                    Time = value;
+                    _time = value;
+                }
+                else
+                {
+                    throw new Exception("Введено некорректное значение.");
                 }
             }
         }
@@ -56,6 +67,6 @@ namespace MotionLibrary
         /// Метод для определения координаты нахождения объекта
         /// </summary>
         /// <returns>Значение типа float</returns>
-        public abstract float CalculateCoordinate();
+        public abstract double CalculateCoordinate();
     }
 }

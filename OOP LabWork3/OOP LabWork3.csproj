@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MotionLibrary\MotionLibrary.csproj">
+      <Project>{ce2b5b66-e338-4151-8f1f-9aac78eabf92}</Project>
+      <Name>MotionLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

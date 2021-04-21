@@ -46,7 +46,7 @@
     <Compile Include="Motion.cs" />
     <Compile Include="OscillatoryMotion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UniformlyAcceleratedMotion.cs" />
+    <Compile Include="AcceleratedMotion.cs" />
     <Compile Include="UniformMotion.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

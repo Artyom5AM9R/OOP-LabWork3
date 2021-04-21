@@ -15,7 +15,7 @@ namespace MotionLibrary
         /// Метод для определения координаты нахождения объекта
         /// </summary>
         /// <returns>Значение типа float</returns>
-        public override float CalculateCoordinate()
+        public override double CalculateCoordinate()
         {
             Coordinate = Speed * Time;
 
