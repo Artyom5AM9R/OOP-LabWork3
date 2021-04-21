@@ -56,6 +56,6 @@ namespace MotionLibrary
         /// Метод для определения координаты нахождения объекта
         /// </summary>
         /// <returns>Значение типа float</returns>
-        public abstract float CoordinateCalculation();
+        public abstract float CalculateCoordinate();
     }
 }

@@ -11,7 +11,11 @@ namespace MotionLibrary
     /// </summary>
     public class UniformMotion : Motion
     {
-        public override float CoordinateCalculation()
+        /// <summary>
+        /// Метод для определения координаты нахождения объекта
+        /// </summary>
+        /// <returns>Значение типа float</returns>
+        public override float CalculateCoordinate()
         {
             Coordinate = Speed * Time;
 
