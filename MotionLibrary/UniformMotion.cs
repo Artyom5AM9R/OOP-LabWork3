@@ -9,7 +9,13 @@ namespace MotionLibrary
     /// <summary>
     /// Класс для описания равномерного движения объектов
     /// </summary>
-    public class UniformMotion
+    public class UniformMotion : Motion
     {
+        public override float CoordinateCalculation()
+        {
+            Coordinate = Speed * Time;
+
+            return Coordinate;
+        }
     }
 }

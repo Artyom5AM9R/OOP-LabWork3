@@ -14,7 +14,7 @@ namespace MotionLibrary
         /// <summary>
         /// Свойство для доступа к данным о координате нахождения объекта
         /// </summary>
-        public float Coordinate { get; private set; }
+        public float Coordinate { get; protected set; }
 
         /// <summary>
         /// Свойство для доступа к данным о скорости движения объекта
@@ -25,7 +25,7 @@ namespace MotionLibrary
             {
                 return Speed;
             }
-            private set
+            protected set
             {
                 if (value > 0 && value <= 299792458)
                 {
@@ -43,7 +43,7 @@ namespace MotionLibrary
             {
                 return Time;
             }
-            private set
+            protected set
             {
                 if (value > 0)
                 {
