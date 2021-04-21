@@ -9,10 +9,11 @@ namespace MotionLibrary
     /// <summary>
     /// Класс для описания равноускоренного движения объектов
     /// </summary>
-    public class AcceleratedMotion : Motion
+    public class AcceleratedMotion : MotionBase
     {
-        private double _startSpeed;
-
+        /// <summary>
+        /// Ускорение тела
+        /// </summary>
         private double _acceleration;
 
         /// <summary>
@@ -20,25 +21,10 @@ namespace MotionLibrary
         /// </summary>
         public double StartCoordinate{ get; set; }
 
-        public double StartSpeed
-        {
-            get
-            {
-                return _startSpeed;
-            }
-            set
-            {
-                if (value > 0 && value <= 299792458)
-                {
-                    _startSpeed = value;
-                }
-                else
-                {
-                    throw new Exception("Введено некорректное значение.");
-                }
-            }
-        }
 
+        /// <summary>
+        /// Свойство для доступа к данным об ускорении тела
+        /// </summary>
         public double Acceleration
         {
             get
@@ -61,23 +47,12 @@ namespace MotionLibrary
         /// <summary>
         /// Метод для определения координаты нахождения объекта
         /// </summary>
-        /// <returns>Значение типа float</returns>
+        /// <returns>Значение типа double, округленное до 2 знаков после запятой</returns>
         public override double CalculateCoordinate()
         {
-            Coordinate = StartCoordinate + StartSpeed * Time + Acceleration * Time * Time / 2;
+            Coordinate = StartCoordinate + Speed * Time + Acceleration * Time * Time / 2;
 
             return Coordinate;
-        }
-
-        /// <summary>
-        /// Метод для определения ускорения объекта
-        /// </summary>
-        /// <returns></returns>
-        public double CalculateAcceleration()
-        {
-            Acceleration = (Speed - StartSpeed) / Time;
-
-            return Acceleration;
         }
     }
 }

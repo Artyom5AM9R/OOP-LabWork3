@@ -7,8 +7,16 @@ using MotionLibrary;
 
 namespace OOP_LabWork3
 {
+    /// <summary>
+    /// Класс для реализации функционала библиотеки MotionLibrary
+    /// </summary>
     public class ConsoleLoader
     {
+        /// <summary>
+        /// Метод для вывода на экран цветного текста
+        /// </summary>
+        /// <param name="text">Тескт для вывода на экран</param>
+        /// <param name="color">Цвет текста</param>
         public static void ColorTextInConsole (string text, ConsoleColor color)
         {
             Console.ForegroundColor = color;
@@ -18,7 +26,7 @@ namespace OOP_LabWork3
 
         /// <summary>
         /// Метод для повтора действий по считыванию значения из консоли до момента получения
-        /// корректного значения и последующего совершения действия с ним
+        /// корректного значения
         /// </summary>
         /// <param name="outputLine">Строка для вывода в консоль</param>
         /// <param name="onRead">Действие, которое необходимо сделать</param>
@@ -29,18 +37,21 @@ namespace OOP_LabWork3
                 try
                 {
                     Console.Write(outputLine);
-                    onRead(Console.ReadLine());
+                    onRead(Console.ReadLine().Replace(".", ","));
                     return;
                 }
                 catch (Exception exception)
                 {
-                    ColorTextInConsole($"\n{exception.Message} Повторите ввод.\n",
+                    ColorTextInConsole($"\n{exception.Message} Повторите ввод.\n\n",
                         ConsoleColor.Red);
                 }
             }
         }
 
-        public static void Main(string[] args)
+        /// <summary>
+        /// Точка входа в программу
+        /// </summary>
+        public static void Main()
         {
             while (true)
             {
@@ -53,13 +64,14 @@ namespace OOP_LabWork3
                     ColorTextInConsole("\nВыберите тип движения для расчета координаты тела: ",
                         ConsoleColor.Green);
                     byte type = Convert.ToByte(Console.ReadLine());
+                    Console.WriteLine();
 
                     if (type <= 0 || type > 3)
                     {
                         throw new Exception("Введено некорректное значение.");
                     }
 
-                    Motion tmpMotion;
+                    MotionBase tmpMotion;
                     
                     switch (type)
                     {
@@ -77,7 +89,7 @@ namespace OOP_LabWork3
                     switch (tmpMotion)
                     {
                         case UniformMotion motion:
-                            SafeReadFromConsole("\nСкорость (м/с): ", input => 
+                            SafeReadFromConsole("Скорость (м/с): ", input => 
                             motion.Speed = Convert.ToDouble(input));
                             SafeReadFromConsole("Время (с): ", input => 
                             motion.Time = Convert.ToDouble(input));
@@ -88,49 +100,10 @@ namespace OOP_LabWork3
                                 $"{motion.Coordinate} м\n\n", ConsoleColor.Blue);
                             break;
                         case AcceleratedMotion motion:
-                            /*while (true)
-                            {
-                                Console.Write("\nНужен ли расчет ускорения (Y/N)? ");
-                                string choice = Console.ReadLine().ToLower();
-
-                                bool marker = false;
-
-                                switch (choice)
-                                {
-                                    case "y":
-                                        SafeReadFromConsole("\nНачальная скорость (м/с): ", input =>
-                                            motion.StartSpeed = Convert.ToDouble(input));
-                                        SafeReadFromConsole("Конечная скорость (м/с): ", input =>
-                                            motion.Speed = Convert.ToDouble(input));
-                                        SafeReadFromConsole("Время (с): ", input =>
-                                            motion.Time = Convert.ToDouble(input));
-
-                                        motion.CalculateAcceleration();
-
-                                        ColorTextInConsole($"\nРассчитанное ускорение (м/с^2): " +
-                                            $"{motion.Acceleration}\n",
-                                            ConsoleColor.Blue);
-                                        marker = true;
-                                        break;
-                                    case "n":
-                                        marker = true;
-                                        break;
-                                    default:
-                                        ColorTextInConsole($"\nВведено некорректное значение. " +
-                                            $"Повторите ввод.\n", ConsoleColor.Red);
-                                        break;
-                                }
-
-                                if (marker)
-                                {
-                                    break;
-                                }
-                            }*/
-
-                            SafeReadFromConsole("\nНачальная координата тела: ", input =>
+                            SafeReadFromConsole("Начальная координата тела: ", input =>
                             motion.StartCoordinate = Convert.ToDouble(input));
                             SafeReadFromConsole("Начальная скорость (м/с): ", input =>
-                                    motion.StartSpeed = Convert.ToDouble(input));
+                                    motion.Speed = Convert.ToDouble(input));
                             SafeReadFromConsole("Время (с): ", input =>
                                 motion.Time = Convert.ToDouble(input));
                             SafeReadFromConsole("Ускорение (м/с^2): ", input =>
@@ -141,91 +114,35 @@ namespace OOP_LabWork3
                             ColorTextInConsole($"\nКоордината тела при равноускоренном движении: " +
                                 $"{motion.Coordinate} м\n\n", ConsoleColor.Blue);
                             break;
-                        case OscillatoryMotion motion:
-                            /*while (true)
-                            {
-                                Console.Write("\nНужен ли расчет циклической частоты колебаний (Y/N)? ");
-                                string choice = Console.ReadLine().ToLower();
-
-                                bool marker = false;
-
-                                switch (choice)
-                                {
-                                    case "y":
-                                        double period = 0;
-
-                                        SafeReadFromConsole("\nПериод колебаний (с): ", input =>
-                                            period = Convert.ToDouble(input));
-
-                                        ColorTextInConsole($"\nРассчитанная частота (рад/с): " +
-                                            $"{motion.CalculateFrequency(period)}\n",
-                                            ConsoleColor.Blue);
-                                        marker = true;
-                                        break;
-                                    case "n":
-                                        marker = true;
-                                        break;
-                                    default:
-                                        ColorTextInConsole($"\nВведено некорректное значение. " +
-                                            $"Повторите ввод.\n", ConsoleColor.Red);
-                                        break;
-                                }
-
-                                if (marker)
-                                {
-                                    break;
-                                }
-                            }
-
-                            while (true)
-                            {
-                                Console.Write("\nНужен ли перевод начально (Y/N)? ");
-                                string choice = Console.ReadLine().ToLower();
-
-                                bool marker = false;
-
-                                switch (choice)
-                                {
-                                    case "y":
-                                        double period = 0;
-
-                                        SafeReadFromConsole("\nПериод колебаний (с): ", input =>
-                                            period = Convert.ToDouble(input));
-
-                                        ColorTextInConsole($"\nРассчитанная частота (рад/с): " +
-                                            $"{motion.CalculateFrequency(period)}\n",
-                                            ConsoleColor.Blue);
-                                        marker = true;
-                                        break;
-                                    case "n":
-                                        marker = true;
-                                        break;
-                                    default:
-                                        ColorTextInConsole($"\nВведено некорректное значение. " +
-                                            $"Повторите ввод.\n", ConsoleColor.Red);
-                                        break;
-                                }
-
-                                if (marker)
-                                {
-                                    break;
-                                }
-                            }*/
-
-                            SafeReadFromConsole("\nАмплитуда отклонения тела: ", input =>
-                            motion.StartCoordinate = Convert.ToDouble(input));
-                            SafeReadFromConsole("Начальная скорость (м/с): ", input =>
-                                    motion.StartSpeed = Convert.ToDouble(input));
+                        case OscillatoryMotion motion:                            
+                            SafeReadFromConsole("Амплитуда отклонения тела: ", input =>
+                            motion.Amplitude = Convert.ToDouble(input));
+                            SafeReadFromConsole("Начальное положение тела (0 - равновесия, 1 - " +
+                                "максимальное отклонение): ", input => motion.StartingPosition = 
+                                Convert.ToByte(input));
+                            SafeReadFromConsole("Циклическая частота (рад/с): ", input =>
+                                motion.CyclicFrequency = Convert.ToDouble(input));
                             SafeReadFromConsole("Время (с): ", input =>
                                 motion.Time = Convert.ToDouble(input));
-                            SafeReadFromConsole("Ускорение (м/с^2): ", input =>
-                                motion.Acceleration = Convert.ToDouble(input));
+                            SafeReadFromConsole("Начальная фаза (град): ", input =>
+                                motion.InitialPhase = Convert.ToDouble(input));
 
                             motion.CalculateCoordinate();
 
                             ColorTextInConsole($"\nКоордината тела при колебательном движении: " +
                                 $"{motion.Coordinate} м\n\n", ConsoleColor.Blue);
                             break;
+                    }
+
+                    ColorTextInConsole("\nДля выхода из программы нажмите клавишу Esc\n",
+                        ConsoleColor.Green);
+                    if (Console.ReadKey().Key == ConsoleKey.Escape)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine();
                     }
                 }
                 catch (Exception exception)

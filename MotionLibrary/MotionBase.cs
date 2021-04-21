@@ -9,15 +9,38 @@ namespace MotionLibrary
     /// <summary>
     /// Класс для описания механического движения объектов
     /// </summary>
-    public abstract class Motion
+    public abstract class MotionBase
     {
         /// <summary>
-        /// Свойство для доступа к данным о координате нахождения объекта
+        /// Координата положения тела
         /// </summary>
-        public double Coordinate { get; protected set; }
+        private double _coordinate;
 
+        /// <summary>
+        /// Скорость движения тела
+        /// </summary>
         private double _speed;
+
+        /// <summary>
+        /// Время движения тела
+        /// </summary>
         private double _time;
+
+        /// <summary>
+        /// Свойство для доступа к данным о координате нахождения объекта.
+        /// Значение координаты округляется до 2-х знаков после запятой.
+        /// </summary>
+        public double Coordinate
+        {
+            get
+            {
+                return _coordinate;
+            }
+            protected set
+            {
+                _coordinate = Math.Round(value, 2);
+            }
+        }
 
         /// <summary>
         /// Свойство для доступа к данным о скорости движения объекта
