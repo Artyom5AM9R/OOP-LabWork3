@@ -12,14 +12,12 @@ namespace MotionLibrary
     public class UniformMotion : MotionBase
     {
         /// <summary>
-        /// Метод для определения координаты нахождения объекта
+        /// Метод для определения координаты нахождения объекта с записью 
+        /// полученного значения в поле _coordinate
         /// </summary>
-        /// <returns>Значение типа double, округленное до 2 знаков после запятой</returns>
-        public override double CalculateCoordinate()
+        public override void CalculateCoordinate()
         {
             Coordinate = Speed * Time;
-
-            return Coordinate;
         }
     }
 }

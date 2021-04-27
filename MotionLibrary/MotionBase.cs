@@ -27,6 +27,11 @@ namespace MotionLibrary
         private double _time;
 
         /// <summary>
+        /// Максимально возможная скорость тела
+        /// </summary>
+        public const int MaxSpeed = 299792458;
+
+        /// <summary>
         /// Свойство для доступа к данным о координате нахождения объекта.
         /// Значение координаты округляется до 2-х знаков после запятой.
         /// </summary>
@@ -53,7 +58,8 @@ namespace MotionLibrary
             }
             set
             {
-                if (value > 0 && value <= 299792458)
+//TODO: const +++
+                if (value > 0 && value <= MaxSpeed)
                 {
                     _speed = value;
                 }
@@ -86,10 +92,11 @@ namespace MotionLibrary
             }
         }
 
+//TODO: Подумать о возврате значения +++
         /// <summary>
-        /// Метод для определения координаты нахождения объекта
+        /// Метод для определения координаты нахождения объекта с записью 
+        /// полученного значения в поле _coordinate
         /// </summary>
-        /// <returns>Значение типа float</returns>
-        public abstract double CalculateCoordinate();
+        public abstract void CalculateCoordinate();
     }
 }

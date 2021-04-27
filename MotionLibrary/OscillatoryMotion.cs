@@ -19,7 +19,7 @@ namespace MotionLibrary
         /// <summary>
         /// Начальное положение тела
         /// </summary>
-        private byte _startingPosition;
+        private StartingPositionType _startingPosition;
 
         /// <summary>
         /// Циклическая частота колебаний
@@ -32,7 +32,12 @@ namespace MotionLibrary
         private double _initialPhase;
 
         /// <summary>
-        /// Амплитуда отклонения объекта от положения равновесия [метр]
+        /// Максимально возможное значение начальной фазы колебаний
+        /// </summary>
+        public const byte MaxPhase = 180;
+
+        /// <summary>
+        /// Амплитуда отклонения объекта от положения равновесия
         /// </summary>
         public double Amplitude
         {
@@ -54,10 +59,10 @@ namespace MotionLibrary
         }
 
         /// <summary>
-        /// Начальное положение объекта: 0 - положение равновесия, 1 - положение 
+        /// Начальное положение тела: 0 - положение равновесия, 1 - положение 
         /// максимального отклонения
         /// </summary>
-        public byte StartingPosition
+        public StartingPositionType StartingPosition
         {
             get
             {
@@ -65,12 +70,13 @@ namespace MotionLibrary
             }
             set
             {
+//TODO: создать перечисление +++
                 switch (value)
                 {
-                    case 0:
+                    case StartingPositionType.Equilibrium:
                         _startingPosition = value;
                         break;
-                    case 1:
+                    case StartingPositionType.MaxDeviation:
                         _startingPosition = value;
                         break;
                     default:
@@ -112,7 +118,8 @@ namespace MotionLibrary
             }
             set
             {
-                if (Math.Abs(value) < 180)
+//TODO: const +++
+                if (Math.Abs(value) < MaxPhase)
                 {
                     _initialPhase = value * Math.PI / 180;
                 }
@@ -124,22 +131,20 @@ namespace MotionLibrary
         }
 
         /// <summary>
-        /// Метод для определения координаты нахождения объекта
+        /// Метод для определения координаты нахождения объекта с записью 
+        /// полученного значения в поле _coordinate
         /// </summary>
-        /// <returns>Значение типа double, округленное до 2 знаков после запятой</returns>
-        public override double CalculateCoordinate()
+        public override void CalculateCoordinate()
         {
             switch (StartingPosition)
             {
-                case 0:
-                    Coordinate = (Amplitude * Math.Sin(CyclicFrequency * Time + InitialPhase));
+                case StartingPositionType.Equilibrium:
+                    Coordinate = Amplitude * Math.Sin(CyclicFrequency * Time + InitialPhase);
                     break;
-                case 1:
+                default:
                     Coordinate = Amplitude * Math.Cos(CyclicFrequency * Time + InitialPhase);
                     break;
             }
-
-            return Coordinate;
         }
     }
 }
