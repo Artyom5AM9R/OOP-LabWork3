@@ -17,6 +17,34 @@ namespace MotionLibrary
         private double _acceleration;
 
         /// <summary>
+        /// Скорость движения тела
+        /// </summary>
+        private double _speed;
+
+        /// <summary>
+        /// Свойство для доступа к данным о скорости движения объекта
+        /// </summary>
+        public double Speed
+        {
+            get
+            {
+                return _speed;
+            }
+            set
+            {
+                //TODO: const +++
+                if (value > 0 && value <= UniformMotion.MaxSpeed)
+                {
+                    _speed = value;
+                }
+                else
+                {
+                    throw new Exception("Введено некорректное значение.");
+                }
+            }
+        }
+
+        /// <summary>
         /// Свойство для доступа к данным о начальной координате нахождения объекта
         /// </summary>
         public double StartCoordinate{ get; set; }
@@ -33,8 +61,7 @@ namespace MotionLibrary
             }
             set
             {
-//TODO: const +++
-                if (value != 0 && Math.Abs(value) <= MaxSpeed)
+                if (value != 0 && Math.Abs(value) <= UniformMotion.MaxSpeed)
                 {
                     _acceleration = value;
                 }
@@ -46,12 +73,14 @@ namespace MotionLibrary
         }
 
         /// <summary>
-        /// Метод для определения координаты нахождения объекта с записью 
-        /// полученного значения в поле _coordinate
+        /// Метод для определения координаты нахождения объекта
         /// </summary>
-        public override void CalculateCoordinate()
+        /// <returns>Значение типа double</returns>
+        protected override double CalculateCoordinate()
         {
-            Coordinate = StartCoordinate + Speed * Time + Acceleration * Math.Pow(Time, 2) / 2;
+            double coordinate = StartCoordinate + Speed * Time + Acceleration * Math.Pow(Time, 2) / 2;
+
+            return coordinate;
         }
     }
 }

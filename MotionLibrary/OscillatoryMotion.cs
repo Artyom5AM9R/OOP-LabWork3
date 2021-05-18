@@ -70,7 +70,6 @@ namespace MotionLibrary
             }
             set
             {
-//TODO: создать перечисление +++
                 switch (value)
                 {
                     case StartingPositionType.Equilibrium:
@@ -118,7 +117,6 @@ namespace MotionLibrary
             }
             set
             {
-//TODO: const +++
                 if (Math.Abs(value) < MaxPhase)
                 {
                     _initialPhase = value * Math.PI / 180;
@@ -131,20 +129,24 @@ namespace MotionLibrary
         }
 
         /// <summary>
-        /// Метод для определения координаты нахождения объекта с записью 
-        /// полученного значения в поле _coordinate
+        /// Метод для определения координаты нахождения объекта
         /// </summary>
-        public override void CalculateCoordinate()
+        /// <returns>Значение типа double</returns>
+        protected override double CalculateCoordinate()
         {
+            double coordinate;
+
             switch (StartingPosition)
             {
                 case StartingPositionType.Equilibrium:
-                    Coordinate = Amplitude * Math.Sin(CyclicFrequency * Time + InitialPhase);
+                    coordinate = Amplitude * Math.Sin(CyclicFrequency * Time + InitialPhase);
                     break;
                 default:
-                    Coordinate = Amplitude * Math.Cos(CyclicFrequency * Time + InitialPhase);
+                    coordinate = Amplitude * Math.Cos(CyclicFrequency * Time + InitialPhase);
                     break;
             }
+
+            return coordinate;
         }
     }
 }

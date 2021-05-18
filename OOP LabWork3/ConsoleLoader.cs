@@ -64,12 +64,11 @@ namespace OOP_LabWork3
                     ColorTextInConsole("\nВыберите тип движения для расчета координаты тела: ",
                         ConsoleColor.Green);
                     
-                    byte type = Convert.ToByte(Console.ReadLine());
                     Console.WriteLine();
 
                     MotionBase tmpMotion;
                     
-                    switch (type)
+                    switch (Convert.ToByte(Console.ReadLine()))
                     {
                         case 1:
                             tmpMotion = new UniformMotion();
@@ -112,22 +111,22 @@ namespace OOP_LabWork3
                                 motion.InitialPhase = input);
                             break;
                     }
-//TODO: Показать полиморфизм +++
-                    tmpMotion.CalculateCoordinate();
 
-                    switch(type)
+//TODO: Показать полиморфизм +++
+
+                    switch(tmpMotion.GetType().Name)
                     {
-                        case 1:
+                        case nameof(UniformMotion):
                             ColorTextInConsole($"\nКоордината тела при равномерном движении: " +
-                                $"{tmpMotion.Coordinate} м\n\n", ConsoleColor.Blue);
+                                $"{Math.Round(tmpMotion.Coordinate, 2)} м\n\n", ConsoleColor.Blue);
                             break;
-                        case 2:
+                        case nameof(AcceleratedMotion):
                             ColorTextInConsole($"\nКоордината тела при равноускоренном движении: " +
-                                $"{tmpMotion.Coordinate} м\n\n", ConsoleColor.Blue);
+                                $"{Math.Round(tmpMotion.Coordinate, 2)} м\n\n", ConsoleColor.Blue);
                             break;
-                        case 3:
+                        case nameof(OscillatoryMotion):
                             ColorTextInConsole($"\nКоордината тела при колебательном движении: " +
-                                $"{tmpMotion.Coordinate} м\n\n", ConsoleColor.Blue);
+                                $"{Math.Round(tmpMotion.Coordinate, 2)} м\n\n", ConsoleColor.Blue);
                             break;
                     }
 

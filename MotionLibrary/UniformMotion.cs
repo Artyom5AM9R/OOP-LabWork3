@@ -12,12 +12,46 @@ namespace MotionLibrary
     public class UniformMotion : MotionBase
     {
         /// <summary>
-        /// Метод для определения координаты нахождения объекта с записью 
-        /// полученного значения в поле _coordinate
+        /// Скорость движения тела
         /// </summary>
-        public override void CalculateCoordinate()
+        private double _speed;
+
+        /// <summary>
+        /// Максимально возможная скорость тела
+        /// </summary>
+        public const int MaxSpeed = 299792458;
+
+        /// <summary>
+        /// Свойство для доступа к данным о скорости движения объекта
+        /// </summary>
+        public double Speed
         {
-            Coordinate = Speed * Time;
+            get
+            {
+                return _speed;
+            }
+            set
+            {
+                if (value > 0 && value <= MaxSpeed)
+                {
+                    _speed = value;
+                }
+                else
+                {
+                    throw new Exception("Введено некорректное значение.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Метод для определения координаты нахождения объекта с записью
+        /// </summary>
+        /// <returns>Значение типа double</returns>
+        protected override double CalculateCoordinate()
+        {
+            double coordinate = Speed * Time;
+
+            return coordinate;
         }
     }
 }

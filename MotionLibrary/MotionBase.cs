@@ -12,25 +12,11 @@ namespace MotionLibrary
     public abstract class MotionBase
     {
         /// <summary>
-        /// Координата положения тела
-        /// </summary>
-        private double _coordinate;
-
-        /// <summary>
-        /// Скорость движения тела
-        /// </summary>
-        private double _speed;
-
-        /// <summary>
         /// Время движения тела
         /// </summary>
         private double _time;
 
-        /// <summary>
-        /// Максимально возможная скорость тела
-        /// </summary>
-        public const int MaxSpeed = 299792458;
-
+//TODO: убрать округление, т.к. это потеря данных. Округлять надо уже по месту требования значения +++
         /// <summary>
         /// Свойство для доступа к данным о координате нахождения объекта.
         /// Значение координаты округляется до 2-х знаков после запятой.
@@ -39,34 +25,7 @@ namespace MotionLibrary
         {
             get
             {
-                return _coordinate;
-            }
-            protected set
-            {
-                _coordinate = Math.Round(value, 2);
-            }
-        }
-
-        /// <summary>
-        /// Свойство для доступа к данным о скорости движения объекта
-        /// </summary>
-        public double Speed
-        {
-            get
-            {
-                return _speed;
-            }
-            set
-            {
-//TODO: const +++
-                if (value > 0 && value <= MaxSpeed)
-                {
-                    _speed = value;
-                }
-                else
-                {
-                    throw new Exception("Введено некорректное значение.");
-                }
+                return CalculateCoordinate();
             }
         }
 
@@ -93,10 +52,10 @@ namespace MotionLibrary
         }
 
 //TODO: Подумать о возврате значения +++
+//TODO: Перенести метод в свойство Coordinate, добавить его в get, чтобы можно было получить координату по актуальным данным
         /// <summary>
-        /// Метод для определения координаты нахождения объекта с записью 
-        /// полученного значения в поле _coordinate
+        /// Метод для определения координаты нахождения объекта
         /// </summary>
-        public abstract void CalculateCoordinate();
+        protected abstract double CalculateCoordinate();
     }
 }
